@@ -1,4 +1,4 @@
-//Proyecto en GitHub
+//Proyecto en GitHub debe correr en el puerto 3000
 //Declaración de express
 const express = require('express');
 
@@ -10,7 +10,7 @@ const servidor = express();
 
 //Importador de politicas de CORS
 const cors = require('cors');
-3
+
 //Importador 
 const path = require('path');
 
@@ -29,7 +29,7 @@ servidor.all('/',(req,res, next) => {
 servidor.use(cors());
 servidor.use('/API-Mail', service_mail);
 
-const serverNode = servidor.listen(process.env.port || 5000);
+const serverNode = servidor.listen(process.env.port || 3000);
 
 //Mensaje de uso para programadores
 console.log(`Servidor corriendo en el puerto: http://localhost:${serverNode.address().port}`);
