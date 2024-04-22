@@ -38,8 +38,17 @@ router.get("/Servicio-ABMCategorias", async (req,res) => {
     //validar estado de la conexion
     console.log(conexin);
 
+    //Quede en establecer el Procedimiento Almacenado que suministro José por mail y 
+    //correr los script en la Base de Prueba
+
      //Establecer la consulta
     const consulta1 = await sql.query('select * from dbo.CTACTES')
+
+    //Ejemplo Para Agregar una Funcion:
+    //const result = await sql.query(`SELECT dbo.dbfn_Suma (4,8 ) rESULTADO`);
+
+    //Ejemplo de Procedimiento Almacenado:
+    //const result = await sql.query('EXECUTE dbo.dbsp_ReporteNombres');
 
     //Resultado de la Consulta
     console.log(consulta1);
