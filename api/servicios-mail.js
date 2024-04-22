@@ -14,19 +14,21 @@ const nodemailer = require('nodemailer');
 router.use(bodyParse.json());
 
 //Configuración Metodo Get para la prueba del funcionamiento de la API
-router.get("/", (req,res,next) => {
+router.get("/", (req,res) => {
     try {
         res.status(200).send({
             mensaje: "API de Servicio Envio de Mails"
         });
 
     }catch(err){
-        next(err);
+        res.status(500).send({
+            mensaje: "API de Servicio Envio de Mails"
+        });
     };
 });
 
 //Configuración del Metodo POST para el envio de la Petición de la API
-router.post("/sendMail", (req,res, next) => {
+router.post("/sendMail", (req,res) => {
     try {
 
         const datos = req.body;
@@ -58,17 +60,28 @@ router.post("/sendMail", (req,res, next) => {
         };
 
         //Envio del Mail
-        transporter.sendMail(mailOptions,(error, info) => {
-            res.status(200).send({
-                mensaje: `Envio de mail: ${info.messageId}`,
-                recibido: datos
-            });
-            console.log("Enviado");
+        transporter.sendMail(mailOptions, (errMensaje,info) => {
+            try {
+                res.status(200).json({
+                    mensaje: `Envio de mail:${info.messageId}`,
+                    recibido: datos,
+                });
+                console.log('enviado');
+            } catch(err) {
+                res.status(500).json({
+                    mensaje: `Error en Envio:${errMensaje.message}`,
+                    recibido: datos,
+                });
+                console.error(`Error Función sendMail: ${err}`,errMensaje.message);
+            };
         });
 
-    }catch(err) {
-        console.warn(`error: ${err}`)
-        next(err);
+    } catch(err) {
+        console.warn(`error: ${err}`);
+        res.status(500).json({
+            ok:false,
+            mensaje:`Error en la petición: ${err}`
+        });
     };
 });
 
