@@ -31,13 +31,25 @@ router.get("/Servicio-ABMCategorias", async (req,res) => {
     ;
 
     //Establecer conexión
-    // await sql.connect(configSQLServer);
-    
-    //Establecer la consulta
-    
-    
+    const conexin = await Promise.all([
+        sql.connect(configSQLServer)
+    ]);
 
+    //validar estado de la conexion
+    console.log(conexin);
 
+     //Establecer la consulta
+    const consulta1 = await sql.query('select * from dbo.CTACTES')
+
+    //Resultado de la Consulta
+    console.log(consulta1);
+
+    //Cerrar conexion
+    await sql.close();
+    console.log("Cierre de la conexion SQL");
+
+    res.json(consulta1.recordset);
+    console.log(consulta1.recordset);
 
 });
 

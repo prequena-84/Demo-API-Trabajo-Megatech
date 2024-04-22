@@ -3,12 +3,13 @@ const configSQL = {
     password: process.env.password,
     server: process.env.server,
     database: process.env.database,
-    synchronize: process.env.synchronize,
-    trustServerCertificate: process.env.trustServerCertificate,
+    synchronize: true,
+    trustServerCertificate: true,
     option : {
-        port: process.env.port,
-        encrypt: process.env.encrypt,
+        port: 1433,
+        encrypt: false,
         instancename: process.env.instancename,
+        integratedSecurity: true
     }
 };
 
