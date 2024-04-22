@@ -5,6 +5,9 @@ const express = require('express');
 //Importación de Modulo de Servicios Mails
 const service_mail = require('./servicios-mail');
 
+//Importación de Modulo de Sql-1
+const service_mail = require('./Servicio-SQL1');
+
 //Declaración del Servidor
 const servidor = express();
 
@@ -28,6 +31,7 @@ servidor.all('/',(req,res, next) => {
 
 servidor.use(cors());
 servidor.use('/API-Mail', service_mail);
+servidor.use('/API-Sql', service_mail);
 
 const serverNode = servidor.listen(process.env.port || 3000);
 

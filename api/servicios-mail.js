@@ -22,7 +22,7 @@ router.get("/", (req,res) => {
 
     }catch(err){
         res.status(500).send({
-            mensaje: "API de Servicio Envio de Mails"
+            mensaje: "Error en Servicio Envio de Mails"
         });
     };
 });
