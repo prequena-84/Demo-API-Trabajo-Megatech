@@ -22,27 +22,68 @@ router.get("/", (req,res) => {
     };
 });
 
-router.get("/Servicio-ABMCategorias", async (req,res) => {
+router.post("/SQL-BuscarRubro", async (req,res) => {
+    try {
+        const codigo = req.body.codigo;
+        let objSalida = [] ;
+
+        //Establecer conexión
+        const conexion = await Promise.all([
+            sql.connect(configSQLServer)
+        ]);
+
+        //validar estado de la conexion
+        console.log(conexion);
+
+        //Establecer la consulta
+        const consulta1 = await sql.query(`SELECT CODRUB, DESCRIPCION FROM dbo.RUBROS where CODRUB LIKE '%${codigo}%'`)
+
+        //Cerrar conexion
+        await sql.close();
+        console.log("Cierre de la conexion SQL");
+
+        //res.json(consulta1.recordset);
+        consulta1.recordset.map(item => {
+            objSalida.push({
+                codigo:item.CODRUB.trim(),
+                rubro:item.DESCRIPCION.trim()
+            });
+        });
+
+        res.status(200).json({
+            ok:true,
+            recibido:objSalida	
+        });
+
+    } catch(err) {
+        res.status(500).json({
+            ok:false,
+            mensaje:`Error en la busqueda: ${err}`
+        });
+    };
+});
+
+router.get("/SQL-OperaionABMCategorias", async (req,res) => {
 
     const 
-        codigo = '001',
+        codigo = '3',
         categoria = 'TAN Tanque de Agua',
         accion = 'A' // "A", "U" o "D"
     ;
 
     //Establecer conexión
-    const conexin = await Promise.all([
+    const conexion = await Promise.all([
         sql.connect(configSQLServer)
     ]);
 
     //validar estado de la conexion
-    console.log(conexin);
+    console.log(conexion);
 
     //Quede en establecer el Procedimiento Almacenado que suministro José por mail y 
     //correr los script en la Base de Prueba
 
      //Establecer la consulta
-    const consulta1 = await sql.query('select * from dbo.CTACTES')
+    //const consulta1 = await sql.query(`SELECT DESCRIPCION FROM dbo.RUBROS where CODRUB LIKE '%${codigo}%'`)
 
     //Ejemplo Para Agregar una Funcion:
     //const result = await sql.query(`SELECT dbo.dbfn_Suma (4,8 ) rESULTADO`);
@@ -51,7 +92,7 @@ router.get("/Servicio-ABMCategorias", async (req,res) => {
     //const result = await sql.query('EXECUTE dbo.dbsp_ReporteNombres');
 
     //Resultado de la Consulta
-    console.log(consulta1);
+    //console.log(consulta1);
 
     //Cerrar conexion
     await sql.close();
