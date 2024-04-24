@@ -39,7 +39,6 @@ router.post("/SQL-BuscarRubrocod", async (req,res) => {
 
         //Establecer la consulta
         const consulta = await sql.query(`SELECT CODRUB, DESCRIPCION FROM dbo.RUBROS where CODRUB LIKE '%${codigo}%'`);
-        console.log(consulta);
 
         //Cerrar conexion
         await sql.close();
@@ -52,6 +51,8 @@ router.post("/SQL-BuscarRubrocod", async (req,res) => {
                 rubro:item.DESCRIPCION.trim()
             });
         });
+
+        console.log(objSalida);
 
         res.status(200).json({
             ok:true,
@@ -80,9 +81,8 @@ router.post("/SQL-BuscarRubrodes", async (req,res) => {
         //console.log(conexion);
 
         //Establecer la consulta
-        const consulta1 = await sql.query(`SELECT CODRUB, DESCRIPCION FROM dbo.RUBROS where DESCRIPCION LIKE '%${descripcion}%'`);
-        console.log(consulta1);
-
+        const consulta = await sql.query(`SELECT CODRUB, DESCRIPCION FROM dbo.RUBROS where DESCRIPCION LIKE '%${descripcion}%'`);
+        
         //Cerrar conexion
         await sql.close();
         //console.log("Cierre de la conexion SQL");
@@ -94,6 +94,8 @@ router.post("/SQL-BuscarRubrodes", async (req,res) => {
                 rubro:item.DESCRIPCION.trim()
             });
         });
+
+        console.log(objSalida);
 
         res.status(200).json({
             ok:true,
@@ -108,12 +110,12 @@ router.post("/SQL-BuscarRubrodes", async (req,res) => {
     };
 });
 
-router.get("/SQL-OperaionABMCategorias", async (req,res) => {
+router.post("/SQL-OperaionABMCategorias", async (req,res) => {
 
     const 
-        codigo = '3',
-        categoria = 'TAN Tanque de Agua',
-        accion = 'A' // "A", "U" o "D"
+        codigo = req.body.codigo,
+        descripcion = req.body.descripcion,
+        operacion = req.body.operacion // Tipo de Operación "A", "U" o "D"
     ;
 
     //Establecer conexión
@@ -121,30 +123,28 @@ router.get("/SQL-OperaionABMCategorias", async (req,res) => {
         sql.connect(configSQLServer)
     ]);
 
+    /*
     //validar estado de la conexion
-    console.log(conexion);
+    //console.log(conexion);
 
-    //Quede en establecer el Procedimiento Almacenado que suministro José por mail y 
-    //correr los script en la Base de Prueba
-
-     //Establecer la consulta
+    //Establecer la consulta
     //const consulta1 = await sql.query(`SELECT DESCRIPCION FROM dbo.RUBROS where CODRUB LIKE '%${codigo}%'`)
 
     //Ejemplo Para Agregar una Funcion:
     //const result = await sql.query(`SELECT dbo.dbfn_Suma (4,8 ) rESULTADO`);
-
+    */
     //Ejemplo de Procedimiento Almacenado:
-    //const result = await sql.query('EXECUTE dbo.dbsp_ReporteNombres');
+    const sentencia = await sql.query(`EXECUTE ROTOPLAS.dbo.InsertarRubro '${codigo}', '${descripcion}', '${operacion}'`);
 
     //Resultado de la Consulta
-    //console.log(consulta1);
+    //console.log(sentencia);
 
     //Cerrar conexion
     await sql.close();
     console.log("Cierre de la conexion SQL");
 
-    res.json(consulta1.recordset);
-    console.log(consulta1.recordset);
+    //res.json(consulta1.recordset);
+    console.log(sentencia.recordset);
 
 });
 
