@@ -24,7 +24,7 @@ router.get("/", (req,res) => {
 
 //Quede en agregar los controladores de errores
 //Y hacer la peticiòn para modificar, dar de alta o Eliminar el rubro
-router.post("/SQL-BuscarRubro", async (req,res) => {
+router.post("/SQL-BuscarRubrocod", async (req,res) => {
     try {
         const codigo = req.body.codigo;
         let objSalida = [] ;
@@ -35,17 +35,60 @@ router.post("/SQL-BuscarRubro", async (req,res) => {
         ]);
 
         //validar estado de la conexion
-        console.log(conexion);
+        //console.log(conexion);
 
         //Establecer la consulta
-        const consulta1 = await sql.query(`SELECT CODRUB, DESCRIPCION FROM dbo.RUBROS where CODRUB LIKE '%${codigo}%'`)
+        const consulta = await sql.query(`SELECT CODRUB, DESCRIPCION FROM dbo.RUBROS where CODRUB LIKE '%${codigo}%'`);
+        console.log(consulta);
 
         //Cerrar conexion
         await sql.close();
-        console.log("Cierre de la conexion SQL");
+        //console.log("Cierre de la conexion SQL");
 
         //res.json(consulta1.recordset);
-        consulta1.recordset.map(item => {
+        consulta.recordset.map(item => {
+            objSalida.push({
+                codigo:item.CODRUB.trim(),
+                rubro:item.DESCRIPCION.trim()
+            });
+        });
+
+        res.status(200).json({
+            ok:true,
+            recibido:objSalida	
+        });
+
+    } catch(err) {
+        res.status(500).json({
+            ok:false,
+            mensaje:`Error en la busqueda: ${err}`
+        });
+    };
+});
+
+router.post("/SQL-BuscarRubrodes", async (req,res) => {
+    try {
+        const descripcion = req.body.descripcion;
+        let objSalida = [] ;
+
+        //Establecer conexión
+        const conexion = await Promise.all([
+            sql.connect(configSQLServer)
+        ]);
+
+        //validar estado de la conexion
+        //console.log(conexion);
+
+        //Establecer la consulta
+        const consulta1 = await sql.query(`SELECT CODRUB, DESCRIPCION FROM dbo.RUBROS where DESCRIPCION LIKE '%${descripcion}%'`);
+        console.log(consulta1);
+
+        //Cerrar conexion
+        await sql.close();
+        //console.log("Cierre de la conexion SQL");
+
+        //res.json(consulta1.recordset);
+        consulta.recordset.map(item => {
             objSalida.push({
                 codigo:item.CODRUB.trim(),
                 rubro:item.DESCRIPCION.trim()
