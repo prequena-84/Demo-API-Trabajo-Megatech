@@ -22,6 +22,8 @@ router.get("/", (req,res) => {
     };
 });
 
+//Quede en agregar los controladores de errores
+//Y hacer la peticiòn para modificar, dar de alta o Eliminar el rubro
 router.post("/SQL-BuscarRubro", async (req,res) => {
     try {
         const codigo = req.body.codigo;
