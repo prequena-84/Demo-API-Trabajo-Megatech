@@ -34,6 +34,8 @@ router.post("/SQL-BuscarRubrocod", async (req,res) => {
             sql.connect(configSQLServer)
         ]);
 
+        console.log(conexion);
+
         //Establecer la consulta
         const consulta = await sql.query(`SELECT CODRUB, DESCRIPCION FROM dbo.RUBROS where CODRUB LIKE '%${codigo}%'`);
 
@@ -54,6 +56,7 @@ router.post("/SQL-BuscarRubrocod", async (req,res) => {
         });
 
     } catch(err) {
+        console.log(err);
         res.status(500).json({
             ok:false,
             mensaje:`Error en la busqueda: ${err}`
