@@ -9,10 +9,8 @@ const configSQL = {
         port: 1433,
         encrypt: false,
         instancename: process.env.instancename,
-        integratedSecurity: true
+        //integratedSecurity: true
     }
 };
-
-console.log(configSQL);
 
 module.exports = configSQL

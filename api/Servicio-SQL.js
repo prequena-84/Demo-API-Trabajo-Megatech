@@ -34,15 +34,11 @@ router.post("/SQL-BuscarRubrocod", async (req,res) => {
             sql.connect(configSQLServer)
         ]);
 
-        //validar estado de la conexion
-        //console.log(conexion);
-
         //Establecer la consulta
         const consulta = await sql.query(`SELECT CODRUB, DESCRIPCION FROM dbo.RUBROS where CODRUB LIKE '%${codigo}%'`);
 
         //Cerrar conexion
         await sql.close();
-        //console.log("Cierre de la conexion SQL");
 
         //res.json(consulta1.recordset);
         consulta.recordset.map(item => {
@@ -51,8 +47,6 @@ router.post("/SQL-BuscarRubrocod", async (req,res) => {
                 rubro:item.DESCRIPCION.trim()
             });
         });
-
-        console.log(objSalida);
 
         res.status(200).json({
             ok:true,
@@ -77,15 +71,11 @@ router.post("/SQL-BuscarRubrodes", async (req,res) => {
             sql.connect(configSQLServer)
         ]);
 
-        //validar estado de la conexion
-        //console.log(conexion);
-
         //Establecer la consulta
         const consulta = await sql.query(`SELECT CODRUB, DESCRIPCION FROM dbo.RUBROS where DESCRIPCION LIKE '%${descripcion}%'`);
         
         //Cerrar conexion
         await sql.close();
-        //console.log("Cierre de la conexion SQL");
 
         //res.json(consulta1.recordset);
         consulta.recordset.map(item => {
@@ -94,8 +84,6 @@ router.post("/SQL-BuscarRubrodes", async (req,res) => {
                 rubro:item.DESCRIPCION.trim()
             });
         });
-
-        console.log(objSalida);
 
         res.status(200).json({
             ok:true,
@@ -111,42 +99,40 @@ router.post("/SQL-BuscarRubrodes", async (req,res) => {
 });
 
 router.post("/SQL-OperaionABMCategorias", async (req,res) => {
+    try {
+        const 
+            codigo = req.body.codigo,
+            descripcion = req.body.descripcion,
+            operacion = req.body.operacion, // Tipo de Operación "A", "U" o "D"
+            respuestOperacion = () => {
+                if( operacion == 'A' ) {
+                    return 'se ha dado de alta '
+                } else if ( operacion == 'U' ) {
+                    return 'se ha modificado '
+                } else if ( operacion == 'D' ) {
+                    return 'se ha Eliminado '
+                };
+            };
+        ;
 
-    const 
-        codigo = req.body.codigo,
-        descripcion = req.body.descripcion,
-        operacion = req.body.operacion // Tipo de Operación "A", "U" o "D"
-    ;
+        //Establecer conexión
+        const conexion = await Promise.all([
+            sql.connect(configSQLServer)
+        ]);
 
-    //Establecer conexión
-    const conexion = await Promise.all([
-        sql.connect(configSQLServer)
-    ]);
+        //Ejemplo de Procedimiento Almacenado:
+        await sql.query(`EXECUTE ROTOPLAS.dbo.InsertarRubro ${ codigo !== '' ? "'" + codigo + "'" : null }, '${descripcion}', '${operacion}'`);
 
-    /*
-    //validar estado de la conexion
-    //console.log(conexion);
+        //Cerrar conexion
+        await sql.close();
 
-    //Establecer la consulta
-    //const consulta1 = await sql.query(`SELECT DESCRIPCION FROM dbo.RUBROS where CODRUB LIKE '%${codigo}%'`)
-
-    //Ejemplo Para Agregar una Funcion:
-    //const result = await sql.query(`SELECT dbo.dbfn_Suma (4,8 ) rESULTADO`);
-    */
-    //Ejemplo de Procedimiento Almacenado:
-    const sentencia = await sql.query(`EXECUTE ROTOPLAS.dbo.InsertarRubro '${codigo}', '${descripcion}', '${operacion}'`);
-
-    //Resultado de la Consulta
-    //console.log(sentencia);
-
-    //Cerrar conexion
-    await sql.close();
-    console.log("Cierre de la conexion SQL");
-
-    //res.json(consulta1.recordset);
-    console.log(sentencia.recordset);
-
+        // Returno de la Respuesta con Status 200
+        res.status(200).send(`${respuestOperacion()} la Categoria: "${descripcion}" ${ codigo !== '' ? ', con el código: "' + codigo + '"' : '' } sastifactoriamente `);
+        
+    // Controlador de Errores
+    } catch(err) {
+        res.status(500).send(`No se logro realizar la operación por el siguiente Error: ${err}`);
+    };
 });
-
 
 module.exports = router;
