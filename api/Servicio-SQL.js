@@ -34,8 +34,6 @@ router.post("/SQL-BuscarRubrocod", async (req,res) => {
             sql.connect(configSQLServer)
         ]);
 
-        console.log(conexion);
-
         //Establecer la consulta
         const consulta = await sql.query(`SELECT CODRUB, DESCRIPCION FROM dbo.RUBROS where CODRUB LIKE '%${codigo}%'`);
 
@@ -124,7 +122,7 @@ router.post("/SQL-OperaionABMCategorias", async (req,res) => {
         ]);
 
         //Ejemplo de Procedimiento Almacenado:
-        await sql.query(`EXECUTE ROTOPLAS.dbo.InsertarRubro ${ codigo !== '' ? "'" + codigo + "'" : null }, '${descripcion}', '${operacion}'`);
+        await sql.query(`EXECUTE ROTOPLAS_UAT.dbo.InsertarRubro ${ codigo !== '' ? "'" + codigo + "'" : null }, '${descripcion}', '${operacion}'`);
 
         //Cerrar conexion
         await sql.close();
