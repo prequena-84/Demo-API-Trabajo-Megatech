@@ -12,5 +12,5 @@ const configSQL = {
         //integratedSecurity: true
     }
 };
-
+console.log(configSQL);
 module.exports = configSQL
