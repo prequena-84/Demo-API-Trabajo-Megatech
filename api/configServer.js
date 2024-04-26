@@ -1,6 +1,6 @@
 const configSQL = {
-    user: process.env.user,
-    password: process.env.password,
+    //user: process.env.user,
+    //password: process.env.password,
     server: process.env.server,
     database: process.env.database,
     synchronize: true,
@@ -9,7 +9,7 @@ const configSQL = {
         port: 1433,
         encrypt: false,
         instancename: process.env.instancename,
-        //integratedSecurity: true
+        integratedSecurity: true
     }
 };
 console.log(configSQL);
