@@ -54,6 +54,7 @@ router.post("/SQL-BuscarRubrocod", async (req,res) => {
         });
 
     } catch(err) {
+        console.log(err);
         res.status(500).json({
             ok:false,
             mensaje:`Error en la busqueda: ${err}`
@@ -121,7 +122,7 @@ router.post("/SQL-OperaionABMCategorias", async (req,res) => {
         ]);
 
         //Ejemplo de Procedimiento Almacenado:
-        await sql.query(`EXECUTE ROTOPLAS.dbo.InsertarRubro ${ codigo !== '' ? "'" + codigo + "'" : null }, '${descripcion}', '${operacion}'`);
+        await sql.query(`EXECUTE ROTOPLAS_UAT.dbo.InsertarRubro ${ codigo !== '' ? "'" + codigo + "'" : null }, '${descripcion}', '${operacion}'`);
 
         //Cerrar conexion
         await sql.close();
