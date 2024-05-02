@@ -33,10 +33,4 @@ servidor.use(cors());
 servidor.use('/API-Mail', service_mail);
 servidor.use('/API-Sql', service_SQL);
 
-<<<<<<< HEAD:api/app.js
-const serverNode = servidor.listen(process.env.port || 3000, process.env.hostTesting || 'localhost', () => {
-    //Mensaje de uso para programadores
-    console.log(`Servidor corriendo en: http://${serverNode.address().address}:${serverNode.address().port}`);
-});
 servidor.listen( process.env.port || process.env.PORT);
->>>>>>> 3250232df4dece42eaf88fe6acb89773fead14ce:app.js
