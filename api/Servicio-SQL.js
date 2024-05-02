@@ -54,7 +54,7 @@ router.post("/SQL-BuscarRubrocod", async (req,res) => {
         });
 
     } catch(err) {
-        console.log(err);
+        //console.log(err);
         res.status(500).json({
             ok:false,
             mensaje:`Error en la busqueda: ${err}`

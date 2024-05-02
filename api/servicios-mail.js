@@ -66,18 +66,18 @@ router.post("/sendMail", (req,res) => {
                     mensaje: `Envio de mail:${info.messageId}`,
                     recibido: datos,
                 });
-                console.log('enviado');
+                //console.log('enviado');
             } catch(err) {
                 res.status(500).json({
                     mensaje: `Error en Envio:${errMensaje.message}`,
                     recibido: datos,
                 });
-                console.error(`Error Función sendMail: ${err}`,errMensaje.message);
+                //console.error(`Error Función sendMail: ${err}`,errMensaje.message);
             };
         });
 
     } catch(err) {
-        console.warn(`error: ${err}`);
+        //console.warn(`error: ${err}`);
         res.status(500).json({
             ok:false,
             mensaje:`Error en la petición: ${err}`
