@@ -38,6 +38,5 @@ const serverNode = servidor.listen(process.env.port || 3000, process.env.hostTes
     //Mensaje de uso para programadores
     console.log(`Servidor corriendo en: http://${serverNode.address().address}:${serverNode.address().port}`);
 });
-=======
 servidor.listen( process.env.port || process.env.PORT);
 >>>>>>> 3250232df4dece42eaf88fe6acb89773fead14ce:app.js
