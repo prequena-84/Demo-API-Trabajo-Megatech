@@ -6,7 +6,7 @@ const express = require('express');
 const path = require('path');
 
 //Importador de variables de Entornos
-require('dotenv').config({ path: path.resolve(__dirname,'./.env.dev') });
+require('dotenv').config({ path: path.resolve(__dirname,'./.env') });
 
 const puerto = ( process.env.port == '' ) ? process.env.PORT : process.env.port ;
 console.log(puerto);
