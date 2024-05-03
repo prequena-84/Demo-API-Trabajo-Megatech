@@ -120,7 +120,7 @@ router.post("/SQL-OperaionABMCategorias", async (req,res) => {
             sql.connect(configSQLServer)
         ]);
 
-        console.log(codigo);
+        console.log(conexion, codigo);
 
         if ( codigo !== '' ) {
             await sql.query(`EXECUTE ROTOPLAS_UAT.dbo.InsertarRubro '${codigo}', '${descripcion}', '${operacion}'`);
