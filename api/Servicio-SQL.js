@@ -120,13 +120,8 @@ router.post("/SQL-OperaionABMCategorias", async (req,res) => {
             sql.connect(configSQLServer)
         ]);
 
-        console.log(conexion, codigo);
-
-        if ( codigo !== '' ) {
-            await sql.query(`EXECUTE ROTOPLAS_UAT.dbo.InsertarRubro '${codigo}', '${descripcion}', '${operacion}'`);
-        } else {
-            await sql.query(`EXECUTE ROTOPLAS_UAT.dbo.InsertarRubro null, '${descripcion}', '${operacion}'`);
-        };
+        //Ejemplo de Procedimiento Almacenado:
+        await sql.query(`EXECUTE ROTOPLAS_UAT.dbo.InsertarRubro ${ codigo !== '' ? "'" + codigo + "'" : null }, '${descripcion}', '${operacion}'`);
 
         //Cerrar conexion
         await sql.close();
@@ -136,7 +131,7 @@ router.post("/SQL-OperaionABMCategorias", async (req,res) => {
         
     // Controlador de Errores
     } catch(err) {
-        console.log(err);
+        //console.log(err);
         res.status(500).send(`No se logro realizar la operación por el siguiente Error: ${err}`);
     };
 });
