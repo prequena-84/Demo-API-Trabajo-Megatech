@@ -120,8 +120,13 @@ router.post("/SQL-OperaionABMCategorias", async (req,res) => {
             sql.connect(configSQLServer)
         ]);
 
-        //Ejemplo de Procedimiento Almacenado:
-        await sql.query(`EXECUTE ROTOPLAS_UAT.dbo.InsertarRubro ${ codigo !== '' ? "'" + codigo + "'" : null }, '${descripcion}', '${operacion}'`);
+        console.log(codigo);
+
+        if ( codigo !== '' ) {
+            await sql.query(`EXECUTE ROTOPLAS_UAT.dbo.InsertarRubro '${codigo}', '${descripcion}', '${operacion}'`);
+        } else {
+            await sql.query(`EXECUTE ROTOPLAS_UAT.dbo.InsertarRubro null, '${descripcion}', '${operacion}'`);
+        };
 
         //Cerrar conexion
         await sql.close();
