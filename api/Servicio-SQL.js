@@ -26,14 +26,13 @@ router.get("/", (req,res) => {
 //Y hacer la peticiòn para modificar, dar de alta o Eliminar el rubro
 router.post("/SQL-BuscarRubrocod", async (req,res) => {
     try {
-        const codigo = req.body.codigo;
+        const codigo = req.body.codigo ;
         let objSalida = [] ;
 
         //Establecer conexión
         const conexion = await Promise.all([
             sql.connect(configSQLServer)
         ]);
-
         //Establecer la consulta
         const consulta = await sql.query(`SELECT CODRUB, DESCRIPCION FROM dbo.RUBROS where CODRUB LIKE '%${codigo}%'`);
 
@@ -132,6 +131,7 @@ router.post("/SQL-OperaionABMCategorias", async (req,res) => {
         
     // Controlador de Errores
     } catch(err) {
+        console.log(err);
         res.status(500).send(`No se logro realizar la operación por el siguiente Error: ${err}`);
     };
 });

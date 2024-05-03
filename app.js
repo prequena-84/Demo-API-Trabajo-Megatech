@@ -8,6 +8,9 @@ const path = require('path');
 //Importador de variables de Entornos
 require('dotenv').config({ path: path.resolve(__dirname,'./.env.dev') });
 
+const puerto = ( process.env.port == '' ) ? process.env.PORT : process.env.port ;
+console.log(puerto);
+
 //Importación de Modulo de Servicios Mails
 const service_mail = require('./api/servicios-mail');
 
@@ -21,11 +24,11 @@ const servidor = express();
 const cors = require('cors');
 
 //Configuración del servidor
-servidor.all('/',(req,res, next) => {
+servidor.all('/',(req,res) => {
     try {
         res.send('Bienvenido a la API de servicios de Rotoplas');
     } catch(err) {
-        next(err);
+        console.log(err);
     }
 });
 
@@ -33,4 +36,4 @@ servidor.use(cors());
 servidor.use('/API-Mail', service_mail);
 servidor.use('/API-Sql', service_SQL);
 
-servidor.listen( process.env.port || process.env.PORT);
+servidor.listen(puerto);
