@@ -9,7 +9,6 @@ const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname,'./.env') });
 
 const puerto = ( process.env.port == '' ) ? process.env.PORT : process.env.port ;
-console.log(puerto);
 
 //Importación de Modulo de Servicios Mails
 const service_mail = require('./api/servicios-mail');
