@@ -136,7 +136,7 @@ router.post("/SQL-OperaionABMCategorias", async (req,res) => {
 
     // Controlador de Errores
     } catch(err) {
-        console.log(err);
+        //console.log(err);
         res.status(500).send(`No se logro realizar la operación por el siguiente Error: ${err}`);
     };
 });
