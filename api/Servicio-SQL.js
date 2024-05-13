@@ -122,13 +122,13 @@ router.post("/SQL-OperaionABMCategorias", async (req,res) => {
         await sql.close();
 
          // Returno de la Respuesta con Status 200
-         res.status(200).send(`${respuestOperacion(categoriaAnterior.recordsets[0][0].DESCRIPCION.trim())} la Categoria: "${descripcion}" ${ codigo !== '' ? ', con el código: "' + codigo + '"' : '' } sastifactoriamente `);
+         res.status(200).send(`${respuestOperacion(`"${categoriaAnterior.recordsets[0][0].DESCRIPCION.trim()}"`)} la Categoria: "${descripcion}" ${ codigo !== '' ? ', con el código: "' + codigo + '"' : '' } sastifactoriamente `);
         
          function respuestOperacion(catAnt) {
             if( operacion == 'A' ) {
                 return 'se ha dado de alta ';
             } else if ( operacion == 'U' ) {
-                return `se ha modificado la categoria "${catAnt}" por la`;
+                return `se ha modificado la categoria ${catAnt} por la`;
             } else if ( operacion == 'D' ) {
                 return 'se ha Eliminado ';
             };
