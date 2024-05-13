@@ -113,18 +113,18 @@ router.post("/SQL-OperaionABMCategorias", async (req,res) => {
         ]);
 
         //Lectura de Categoria Anterior
-        categoriaAnterior = operacion == 'U' ? await sql.query(`select DESCRIPCION from RUBROS WHERE CODRUB = '${codigoRubro}';`) : '' ;
-        
+        categoriaAnterior = operacion == 'U' ? await sql.query(`select DESCRIPCION from RUBROS WHERE CODRUB = '${codigo}';`) : '' ;
+
         //Ejemplo de Procedimiento Almacenado:
         await sql.query(`EXECUTE ROTOPLAS_UAT.dbo.InsertarRubro ${ codigo !== '' ? "'" + codigo + "'" : null }, '${descripcion}', '${operacion}'`);
 
-        // Returno de la Respuesta con Status 200
-        res.status(200).send(`${respuestOperacion(categoriaAnterior)} la Categoria: "${descripcion}" ${ codigo !== '' ? ', con el código: "' + codigo + '"' : '' } sastifactoriamente `);
-        
         //Cerrar conexion
         await sql.close();
 
-        function respuestOperacion(catAnt) {
+         // Returno de la Respuesta con Status 200
+         res.status(200).send(`${respuestOperacion(categoriaAnterior.recordsets[0][0].DESCRIPCION.trim())} la Categoria: "${descripcion}" ${ codigo !== '' ? ', con el código: "' + codigo + '"' : '' } sastifactoriamente `);
+        
+         function respuestOperacion(catAnt) {
             if( operacion == 'A' ) {
                 return 'se ha dado de alta ';
             } else if ( operacion == 'U' ) {
@@ -136,7 +136,7 @@ router.post("/SQL-OperaionABMCategorias", async (req,res) => {
 
     // Controlador de Errores
     } catch(err) {
-        //console.log(err);
+        console.log(err);
         res.status(500).send(`No se logro realizar la operación por el siguiente Error: ${err}`);
     };
 });
