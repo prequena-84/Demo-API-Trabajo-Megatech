@@ -128,7 +128,7 @@ router.post("/SQL-OperaionABMCategorias", async (req,res) => {
             if( operacion == 'A' ) {
                 return 'se ha dado de alta ';
             } else if ( operacion == 'U' ) {
-                return `se ha modificado la categoria ${catAnt} por la`;
+                return `se ha modificado la categoria "${catAnt}" por la`;
             } else if ( operacion == 'D' ) {
                 return 'se ha Eliminado ';
             };
