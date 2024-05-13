@@ -122,7 +122,7 @@ router.post("/SQL-OperaionABMCategorias", async (req,res) => {
         await sql.close();
 
          // Returno de la Respuesta con Status 200
-         res.status(200).send(`${respuestOperacion(`"${categoriaAnterior.recordsets[0][0].DESCRIPCION.trim()}"`)} la Categoria: "${descripcion}" ${ codigo !== '' ? ', con el código: "' + codigo + '"' : '' } sastifactoriamente `);
+         res.status(200).send(`${respuestOperacion(operacion == 'U' ? `"${categoriaAnterior.recordsets[0][0].DESCRIPCION.trim()}"` : '')} la Categoria: "${descripcion}" ${ codigo !== '' ? ', con el código: "' + codigo + '"' : '' } sastifactoriamente `);
         
          function respuestOperacion(catAnt) {
             if( operacion == 'A' ) {
@@ -136,8 +136,8 @@ router.post("/SQL-OperaionABMCategorias", async (req,res) => {
 
     // Controlador de Errores
     } catch(err) {
-        //console.log(err);
-        res.status(500).send(`No se logro realizar la operación por el siguiente Error: ${err}`);
+        console.log(err)
+        res.send(`No se logro realizar la operación por un error, por favor revise los datos ingresado en el formulario como los caracter especiales "*", "/", "\'", "\""`);
     };
 });
 
