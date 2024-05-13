@@ -100,19 +100,11 @@ router.post("/SQL-BuscarRubrodes", async (req,res) => {
 
 router.post("/SQL-OperaionABMCategorias", async (req,res) => {
     try {
-        const 
+        let 
             codigo = req.body.codigo,
             descripcion = req.body.descripcion,
             operacion = req.body.operacion, // Tipo de Operación "A", "U" o "D"
-            respuestOperacion = () => {
-                if( operacion == 'A' ) {
-                    return 'se ha dado de alta '
-                } else if ( operacion == 'U' ) {
-                    return 'se ha modificado '
-                } else if ( operacion == 'D' ) {
-                    return 'se ha Eliminado '
-                };
-            };
+            categoriaAnterior
         ;
 
         //Establecer conexión
@@ -120,15 +112,28 @@ router.post("/SQL-OperaionABMCategorias", async (req,res) => {
             sql.connect(configSQLServer)
         ]);
 
+        //Lectura de Categoria Anterior
+        categoriaAnterior = operacion == 'U' ? await sql.query(`select DESCRIPCION from RUBROS WHERE CODRUB = '${codigoRubro}';`) : '' ;
+        
         //Ejemplo de Procedimiento Almacenado:
         await sql.query(`EXECUTE ROTOPLAS_UAT.dbo.InsertarRubro ${ codigo !== '' ? "'" + codigo + "'" : null }, '${descripcion}', '${operacion}'`);
 
+        // Returno de la Respuesta con Status 200
+        res.status(200).send(`${respuestOperacion(categoriaAnterior)} la Categoria: "${descripcion}" ${ codigo !== '' ? ', con el código: "' + codigo + '"' : '' } sastifactoriamente `);
+        
         //Cerrar conexion
         await sql.close();
 
-        // Returno de la Respuesta con Status 200
-        res.status(200).send(`${respuestOperacion()} la Categoria: "${descripcion}" ${ codigo !== '' ? ', con el código: "' + codigo + '"' : '' } sastifactoriamente `);
-        
+        function respuestOperacion(catAnt) {
+            if( operacion == 'A' ) {
+                return 'se ha dado de alta ';
+            } else if ( operacion == 'U' ) {
+                return `se ha modificado la categoria ${catAnt} por la`;
+            } else if ( operacion == 'D' ) {
+                return 'se ha Eliminado ';
+            };
+        };
+
     // Controlador de Errores
     } catch(err) {
         //console.log(err);
