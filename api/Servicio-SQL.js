@@ -104,13 +104,27 @@ router.post("/SQL-OperaionABMCategorias", async (req,res) => {
             codigo = req.body.codigo,
             descripcion = req.body.descripcion,
             operacion = req.body.operacion, // Tipo de Operación "A", "U" o "D"
-            categoriaAnterior
+            categoriaAnterior,
+            categoriaEncontrada
         ;
 
         //Establecer conexión
         const conexion = await Promise.all([
             sql.connect(configSQLServer)
         ]);
+
+
+        //Validador para manejo de categorias ya existentes en la base de datos
+        if ( operacion == 'A' ) {
+            categoriaEncontrada = await sql.query(`select DESCRIPCION from RUBROS WHERE CODRUB = '${codigo}';`);
+            if ( categoriaEncontrada.recordset.length > 0 ) {
+                //respuesta
+                res.send(`La Categoria: "${descripcion}" ya existe en la base de datos`);
+                  //Cerrar conexion
+                await sql.close();
+                return;
+            };
+        };
 
         //Lectura de Categoria Anterior
         categoriaAnterior = operacion == 'U' ? await sql.query(`select DESCRIPCION from RUBROS WHERE CODRUB = '${codigo}';`) : '' ;
