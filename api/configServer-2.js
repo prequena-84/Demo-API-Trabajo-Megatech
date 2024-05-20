@@ -2,7 +2,7 @@ const configSQL = {
     user: process.env.user,
     password: process.env.password,
     server: process.env.server,
-    database: process.env.database,
+    database: process.env.database2,
     synchronize: true,
     trustServerCertificate: true,
     option : {

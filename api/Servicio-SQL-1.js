@@ -1,10 +1,7 @@
 const express = require('express');
 const sql = require('mssql');
-
 const router = express.Router();
-
-const configSQLServer = require('./configServer')
-
+const configSQLServer = require('./configServer-1')
 const bodyParse = require('body-parser');
 router.use(bodyParse.json());
 
@@ -22,8 +19,7 @@ router.get("/", (req,res) => {
     };
 });
 
-//Quede en agregar los controladores de errores
-//Y hacer la peticiòn para modificar, dar de alta o Eliminar el rubro
+//BUSCAR RUBRO POR CODIGOS
 router.post("/SQL-BuscarRubrocod", async (req,res) => {
     try {
         const codigo = req.body.codigo ;
@@ -60,6 +56,12 @@ router.post("/SQL-BuscarRubrocod", async (req,res) => {
         });
     };
 });
+
+/**
+ * Quede en agregar los 3 servicios nuevo de consultas de /BuscarMarcaCod, /BuscarMarcaDes y los 3 /SQL-RegistroMarca,
+ * /SQL-ModificarMarca y /SQL-EliminarMarca
+ * luego porbar si funciona correctamente enviar todo al Git y Comentar el nuevo Menu de ABM de Marca.
+ */
 
 router.post("/SQL-BuscarRubrodes", async (req,res) => {
     try {

@@ -14,7 +14,8 @@ const puerto = ( process.env.port == '' ) ? process.env.PORT : process.env.port 
 const service_mail = require('./api/servicios-mail');
 
 //Importación de Modulo de Sql-1
-const service_SQL = require('./api/Servicio-SQL');
+const service_SQL_1 = require('./api/Servicio-SQL-1');
+const service_SQL_2 = require('./api/Servicio-SQL-2');
 
 //Declaración del Servidor
 const servidor = express();
@@ -33,6 +34,7 @@ servidor.all('/',(req,res) => {
 
 servidor.use(cors());
 servidor.use('/API-Mail', service_mail);
-servidor.use('/API-Sql', service_SQL);
+servidor.use('/API-Sql', service_SQL_1);
+servidor.use('/API-Sql-2', service_SQL_2);
 
 servidor.listen(puerto);
