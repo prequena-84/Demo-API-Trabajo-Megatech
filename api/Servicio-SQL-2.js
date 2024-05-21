@@ -123,7 +123,7 @@ router.post("/SQL-RegistroMarca", async (req,res) => {
         sqlRequest.output('txtSalida', sql.VarChar);
 
         // Ejecución Procedimiento Almacenado con conexión pool
-        const response = await sqlRequest.execute('ROTOPLAS.dbo.InsertarMarca');    
+        const response = await sqlRequest.execute('ROTOPLAS_uat.dbo.InsertarMarca');    
 
          // Returno de la Respuesta con Status 200
          res.status(200).send(response.output.txtSalida);
@@ -172,7 +172,7 @@ router.post("/SQL-ModificarMarca", async (req,res) => {
         sqlRequest.output('txtSalida', sql.VarChar);
 
         // Ejecución Procedimiento Almacenado con conexión pool
-        const response = await sqlRequest.execute('ROTOPLAS.dbo.ModificarMarca');    
+        const response = await sqlRequest.execute('ROTOPLAS_uat.dbo.ModificarMarca');    
 
          // Returno de la Respuesta con Status 200
          res.status(200).send(response.output.txtSalida);
@@ -221,7 +221,7 @@ router.post("/SQL-EliminarMarca", async (req,res) => {
         sqlRequest.output('txtSalida', sql.VarChar);
 
         // Ejecución Procedimiento Almacenado con conexión pool
-        const response = await sqlRequest.execute('ROTOPLAS.dbo.EliminarMarca');    
+        const response = await sqlRequest.execute('ROTOPLAS_uat.dbo.EliminarMarca');    
 
          // Returno de la Respuesta con Status 200
          res.status(200).send(response.output.txtSalida);
