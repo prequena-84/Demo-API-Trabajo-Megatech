@@ -215,7 +215,6 @@ router.post("/SQL-EliminarMarca", async (req,res) => {
         // Asigno el valor de ingreso
         sqlRequest.input('codAtributo', sql.VarChar, req.body.codAtr);
         sqlRequest.input('codMarca', sql.VarChar, req.body.codMar);
-        sqlRequest.input('descripcionMarca', sql.VarChar, req.body.desMar);
 
         // Asigno el Valor de Salida
         sqlRequest.output('txtSalida', sql.VarChar);
