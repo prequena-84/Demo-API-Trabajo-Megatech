@@ -1,0 +1,13 @@
+SyntaxError: Unterminated string in JSON at position 41
+    at JSON.parse (<anonymous>)
+    at parse (F:\UAT\API\node_modules\body-parser\lib\types\json.js:92:19)
+    at F:\UAT\API\node_modules\body-parser\lib\read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:206:9)
+    at invokeCallback (F:\UAT\API\node_modules\raw-body\index.js:238:16)
+    at done (F:\UAT\API\node_modules\raw-body\index.js:227:7)
+    at IncomingMessage.onEnd (F:\UAT\API\node_modules\raw-body\index.js:287:7)
+    at IncomingMessage.emit (node:events:518:28)
+    at endReadableNT (node:internal/streams/readable:1696:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+(node:5032) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
